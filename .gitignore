@@ -1,0 +1,11 @@
+*.py[cod]
+
+*.egg
+*.egg-info
+
+build/
+
+# PyDev
+.settings/
+.project
+.pydevproject

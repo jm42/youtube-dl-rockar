@@ -4,6 +4,7 @@
 import os
 import sys
 import argparse
+import unicodedata
 import urllib.request
 import html.parser
 
@@ -17,6 +18,13 @@ __version__ = '2013-02-23'
 
 BASE_URL = 'http://www.rock.com.ar'
 FILE_FORMAT = '%02d - %s'
+
+
+def normalize(s):
+    return unicodedata.normalize('NFKD', s) \
+                      .lower().replace(' ', '-') \
+                      .encode('ascii', 'ignore') \
+                      .decode('utf-8')
 
 
 class HTMLParser(html.parser.HTMLParser):
@@ -73,7 +81,7 @@ class Artist(HTMLParser):
         self._parse_albums_data = []
 
     def generate_url(self):
-        return self.PATTERN % self.name.lower().replace(' ', '-')
+        return self.PATTERN % normalize(self.name)
 
     def parse(self):
         HTMLParser.parse(self)
@@ -102,9 +110,9 @@ class Artist(HTMLParser):
                 self._parse_albums_data.append([dictattrs['href']])
 
     def get_album(self, albumname):
-        albumname = albumname.lower()
+        albumname = normalize(albumname)
         for album in self.albums:
-            if album.name.lower() == albumname:
+            if normalize(album.name) == albumname:
                 return album
 
     def __str__(self):

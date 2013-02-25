@@ -30,9 +30,10 @@ Requirements
 Changelog
 ---------
 
+ * Normalize artist name in URL.
  * Add dry-run option.
  * Titled artist name.
- * Compare album name lower case.
+ * Compare album name normalized.
 
 2013-02-23
 

@@ -166,7 +166,7 @@ def main():
     fd = FileDownloader({
         'quiet': True,
         'outtmpl': '%(title).%(ext)s',
-        'simulate': ns.dry_run,
+        'simulate': ns.simulate,
     })
 
     fd.add_info_extractor(YoutubeSearchIE())

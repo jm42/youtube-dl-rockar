@@ -66,7 +66,7 @@ class Artist(HTMLParser):
     def __init__(self, name, url=None):
         HTMLParser.__init__(self, url)
 
-        self.name = name
+        self.name = name.title()
         self.albums = []
 
         self._parse_albums = False

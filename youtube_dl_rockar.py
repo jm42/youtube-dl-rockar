@@ -102,8 +102,9 @@ class Artist(HTMLParser):
                 self._parse_albums_data.append([dictattrs['href']])
 
     def get_album(self, albumname):
+        albumname = albumname.lower()
         for album in self.albums:
-            if album.name == albumname:
+            if album.name.lower() == albumname:
                 return album
 
     def __str__(self):

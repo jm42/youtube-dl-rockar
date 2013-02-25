@@ -30,6 +30,8 @@ Requirements
 Changelog
 ---------
 
+ * Compare album name lower case.
+
 2013-02-23
 
 First public version.

@@ -30,6 +30,7 @@ Requirements
 Changelog
 ---------
 
+ * Add dry-run option.
  * Titled artist name.
  * Compare album name lower case.
 

@@ -144,6 +144,8 @@ class Album(HTMLParser):
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--dry-run', action='store_true',
+                        help='run without downloading anything')
     parser.add_argument('artista')
     parser.add_argument('disco', nargs='?')
 
@@ -153,23 +155,24 @@ def parse_args():
 def main():
     ns = parse_args()
 
-    fd = FileDownloader({
-        'quiet': True,
-        'outtmpl': '%(title).%(ext)s',
-    })
+    if not ns.dry_run:
+        fd = FileDownloader({
+            'quiet': True,
+            'outtmpl': '%(title).%(ext)s',
+        })
 
-    fd.add_info_extractor(YoutubeSearchIE())
-    fd.add_info_extractor(YoutubeIE())
+        fd.add_info_extractor(YoutubeSearchIE())
+        fd.add_info_extractor(YoutubeIE())
 
-    fd.add_post_processor(FFmpegExtractAudioPP())
+        fd.add_post_processor(FFmpegExtractAudioPP())
 
     artist = Artist(ns.artista)
 
     if not artist.found:
-        print('ERROR: %s no existe' % ns.artista)
+        print('ERROR: %s no existe' % artist.name)
         return 1
 
-    print('Obteniendo información de %s...' % ns.artista)
+    print('Obteniendo información de %s...' % artist.name)
     artist.parse()
 
     if not os.path.exists(artist.name):
@@ -181,7 +184,7 @@ def main():
         album = artist.get_album(ns.disco)
 
         if album is None or not album.found:
-            print('ERROR: %s no tiene un disco %s' % (ns.artista, ns.disco))
+            print('ERROR: %s no tiene un disco %s' % (artist.name, ns.disco))
             return 1
 
         albums = [album]
@@ -208,8 +211,9 @@ def main():
 
             print(' %s' % fname)
 
-            fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
-            fd.download(['ytsearch:%s %s' % (artist.name, song)])
+            if not ns.dry_run:
+                fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
+                fd.download(['ytsearch:%s %s' % (artist.name, song)])
 
     return 0
 

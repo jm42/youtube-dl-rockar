@@ -188,6 +188,11 @@ def main():
             print('Ignorando %s' % album.name)
             continue
 
+        fpath = os.path.join(ns.artista, album.name)
+
+        if not os.path.exists(fpath):
+            os.mkdir(fpath)
+
         if ns.disco is None:
             print('%s:' % album.name)
         else:
@@ -196,13 +201,9 @@ def main():
         album.parse()
 
         for song in album.songs:
-            fpath = os.path.join(ns.artista, album.name)
             fname = FILE_FORMAT % (album.songs.index(song) + 1, song)
 
             print(' %s' % fname)
-
-            if not os.path.exists(fpath):
-                os.mkdir(fpath)
 
             fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
             fd.download(['ytsearch:%s %s' % (ns.artista, song)])

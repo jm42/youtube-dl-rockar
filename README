@@ -30,6 +30,8 @@ Requirements
 Changelog
 ---------
 
+2013-02-25
+
  * Normalize artist name in URL.
  * Add dry-run option.
  * Titled artist name.

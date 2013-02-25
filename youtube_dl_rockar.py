@@ -14,7 +14,7 @@ from youtube_dl.PostProcessor import FFmpegExtractAudioPP
 
 __authors__ = ('Juan M Martínez')
 __license__ = 'Public Domain'
-__version__ = '2013-02-23'
+__version__ = '2013-02-25'
 
 BASE_URL = 'http://www.rock.com.ar'
 FILE_FORMAT = '%02d - %s'

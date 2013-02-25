@@ -20,6 +20,12 @@ FILE_FORMAT = '%02d - %s'
 
 
 class HTMLParser(html.parser.HTMLParser):
+    """Basic HTML Parser that will retrieve the HTML from the given URL or
+    create one with the pattern attribute.
+
+    :param url: The relative URL to BASE_URL for download the HTML.
+    """
+
     def __init__(self, url=None):
         html.parser.HTMLParser.__init__(self)
 
@@ -27,14 +33,13 @@ class HTMLParser(html.parser.HTMLParser):
         self._html = None
         self._request = None
 
-    @property
-    def pattern(self):
+    def generate_url(self):
         raise NotImplementedError
 
     @property
     def url(self):
         if self._url is None:
-            self._url = self.pattern
+            self._url = self.generate_url()
         return self._url
 
     @property
@@ -67,8 +72,7 @@ class Artist(HTMLParser):
         self._parse_albums = False
         self._parse_albums_data = []
 
-    @property
-    def pattern(self):
+    def generate_url(self):
         return self.PATTERN % self.name.lower().replace(' ', '-')
 
     def parse(self):
@@ -107,8 +111,6 @@ class Artist(HTMLParser):
 
 
 class Album(HTMLParser):
-    PATTERN = '/discos/%s.shtml'
-
     def __init__(self, name, year, url=None):
         HTMLParser.__init__(self, url)
 

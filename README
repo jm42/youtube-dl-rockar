@@ -15,7 +15,7 @@ discography.
 
 The output format is::
 
-    {artist}/{album}/{num} - {song}.{ext}
+    {artist}/{albumyear} - {album}/{num} - {song}.{ext}
 
 Where `artist` is the given artist name, `album` the name of the given album
 or each album name retrieved. The filename is composed of the position of the
@@ -32,8 +32,9 @@ Changelog
 
 2013-02-25
 
+ * Add album year to output format.
  * Normalize artist name in URL.
- * Add dry-run option.
+ * Add simulate.
  * Titled artist name.
  * Compare album name normalized.
 

@@ -124,7 +124,7 @@ class Album(HTMLParser):
         HTMLParser.__init__(self, url)
 
         self.name = name
-        self.year = year
+        self.year = year.lstrip('(').rstrip(')')
         self.songs = []
 
         self._parse_songs = False
@@ -202,7 +202,7 @@ def main():
             print('Ignorando %s' % album.name)
             continue
 
-        fpath = os.path.join(artist.name, album.name)
+        fpath = os.path.join(artist.name, '%s - %s' % (album.year, album.name))
 
         if not os.path.exists(fpath):
             os.mkdir(fpath)

@@ -152,7 +152,7 @@ class Album(HTMLParser):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--dry-run', action='store_true',
+    parser.add_argument('-s', '--simulate', action='store_true',
                         help='run without downloading anything')
     parser.add_argument('artista')
     parser.add_argument('disco', nargs='?')
@@ -163,16 +163,16 @@ def parse_args():
 def main():
     ns = parse_args()
 
-    if not ns.dry_run:
-        fd = FileDownloader({
-            'quiet': True,
-            'outtmpl': '%(title).%(ext)s',
-        })
+    fd = FileDownloader({
+        'quiet': True,
+        'outtmpl': '%(title).%(ext)s',
+        'simulate': ns.dry_run,
+    })
 
-        fd.add_info_extractor(YoutubeSearchIE())
-        fd.add_info_extractor(YoutubeIE())
+    fd.add_info_extractor(YoutubeSearchIE())
+    fd.add_info_extractor(YoutubeIE())
 
-        fd.add_post_processor(FFmpegExtractAudioPP())
+    fd.add_post_processor(FFmpegExtractAudioPP())
 
     artist = Artist(ns.artista)
 
@@ -219,9 +219,8 @@ def main():
 
             print(' %s' % fname)
 
-            if not ns.dry_run:
-                fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
-                fd.download(['ytsearch:%s %s' % (artist.name, song)])
+            fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
+            fd.download(['ytsearch:%s %s' % (artist.name, song)])
 
     return 0
 

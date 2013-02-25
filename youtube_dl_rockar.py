@@ -169,8 +169,8 @@ def main():
     print('Obteniendo información de %s...' % ns.artista)
     artist.parse()
 
-    if not os.path.exists(ns.artista):
-        os.mkdir(ns.artista)
+    if not os.path.exists(artist.name):
+        os.mkdir(artist.name)
 
     if ns.disco is None:
         albums = artist.albums
@@ -188,7 +188,7 @@ def main():
             print('Ignorando %s' % album.name)
             continue
 
-        fpath = os.path.join(ns.artista, album.name)
+        fpath = os.path.join(artist.name, album.name)
 
         if not os.path.exists(fpath):
             os.mkdir(fpath)
@@ -206,7 +206,7 @@ def main():
             print(' %s' % fname)
 
             fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
-            fd.download(['ytsearch:%s %s' % (ns.artista, song)])
+            fd.download(['ytsearch:%s %s' % (artist.name, song)])
 
     return 0
 

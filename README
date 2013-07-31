@@ -30,6 +30,11 @@ Requirements
 Changelog
 ---------
 
+2013-07-31
+
+ * Update to 2013.07.19
+ * Do not create folders if simulate.
+
 2013-02-25
 
  * Add album year to output format.

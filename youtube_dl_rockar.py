@@ -183,7 +183,7 @@ def main():
     print('Obteniendo información de %s...' % artist.name)
     artist.parse()
 
-    if not os.path.exists(artist.name):
+    if not ns.simulate and not os.path.exists(artist.name):
         os.mkdir(artist.name)
 
     if ns.disco is None:
@@ -204,7 +204,7 @@ def main():
 
         fpath = os.path.join(artist.name, '%s - %s' % (album.year, album.name))
 
-        if not os.path.exists(fpath):
+        if not ns.simulate and not os.path.exists(fpath):
             os.mkdir(fpath)
 
         if ns.disco is None:

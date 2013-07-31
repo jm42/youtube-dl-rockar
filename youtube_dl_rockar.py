@@ -8,8 +8,8 @@ import unicodedata
 import urllib.request
 import html.parser
 
-from youtube_dl import FileDownloader
-from youtube_dl.InfoExtractors import YoutubeSearchIE, YoutubeIE
+from youtube_dl.YoutubeDL import YoutubeDL
+from youtube_dl.extractor import YoutubeSearchIE, YoutubeIE
 from youtube_dl.PostProcessor import FFmpegExtractAudioPP
 
 __authors__ = ('Juan M Martínez')
@@ -163,16 +163,16 @@ def parse_args():
 def main():
     ns = parse_args()
 
-    fd = FileDownloader({
+    ydl = YoutubeDL({
         'quiet': True,
         'outtmpl': '%(title).%(ext)s',
         'simulate': ns.simulate,
     })
 
-    fd.add_info_extractor(YoutubeSearchIE())
-    fd.add_info_extractor(YoutubeIE())
+    ydl.add_info_extractor(YoutubeSearchIE())
+    ydl.add_info_extractor(YoutubeIE())
 
-    fd.add_post_processor(FFmpegExtractAudioPP())
+    ydl.add_post_processor(FFmpegExtractAudioPP())
 
     artist = Artist(ns.artista)
 
@@ -219,8 +219,8 @@ def main():
 
             print(' %s' % fname)
 
-            fd.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
-            fd.download(['ytsearch:%s %s' % (artist.name, song)])
+            ydl.params['outtmpl'] = os.path.join(fpath, fname + '.%(ext)s')
+            ydl.download(['ytsearch:%s %s' % (artist.name, song)])
 
     return 0
 

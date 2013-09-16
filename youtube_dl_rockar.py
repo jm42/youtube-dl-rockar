@@ -68,6 +68,7 @@ class HTMLParser(html.parser.HTMLParser):
     def parse(self):
         self.feed(self.html)
 
+
 class Artist(HTMLParser):
     PATTERN = '/artistas/%s.shtml'
 

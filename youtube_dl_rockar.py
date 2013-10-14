@@ -13,7 +13,6 @@ from youtube_dl.extractor import YoutubeSearchIE, YoutubeIE
 from youtube_dl.PostProcessor import FFmpegExtractAudioPP
 
 __authors__ = ('Juan M Martínez')
-__license__ = 'Public Domain'
 __version__ = '2013-02-25'
 
 BASE_URL = 'http://www.rock.com.ar'

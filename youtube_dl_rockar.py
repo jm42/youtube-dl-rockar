@@ -10,7 +10,7 @@ import html.parser
 
 from youtube_dl.YoutubeDL import YoutubeDL
 from youtube_dl.extractor import YoutubeSearchIE, YoutubeIE
-from youtube_dl.PostProcessor import FFmpegExtractAudioPP
+from youtube_dl.postprocessor import FFmpegExtractAudioPP
 
 __authors__ = ('Juan M Martínez')
 __version__ = '2013-02-25'

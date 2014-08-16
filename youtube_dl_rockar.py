@@ -5,8 +5,18 @@ import os
 import sys
 import argparse
 import unicodedata
-import urllib.request
-import html.parser
+
+try:
+    from html.parser import HTMLParser as BaseHTMLParser
+except ImportError:
+    from HTMLParser import HTMLParser as BaseHTMLParser
+
+try:
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import urlopen
+    from urllib2 import HTTPError
 
 from youtube_dl.YoutubeDL import YoutubeDL
 from youtube_dl.extractor import YoutubeSearchIE, YoutubeIE
@@ -26,7 +36,7 @@ def normalize(s):
                       .decode('utf-8')
 
 
-class HTMLParser(html.parser.HTMLParser):
+class HTMLParser(BaseHTMLParser):
     """Basic HTML Parser that will retrieve the HTML from the given URL or
     create one with the pattern attribute.
 
@@ -34,7 +44,7 @@ class HTMLParser(html.parser.HTMLParser):
     """
 
     def __init__(self, url=None):
-        html.parser.HTMLParser.__init__(self)
+        BaseHTMLParser.__init__(self)
 
         self._url = url
         self._html = None
@@ -53,9 +63,9 @@ class HTMLParser(html.parser.HTMLParser):
     def html(self):
         if self._html is None:
             try:
-                self._request = urllib.request.urlopen(BASE_URL + self.url)
+                self._request = urlopen(BASE_URL + self.url)
                 self._html = self._request.read().decode('latin-1')
-            except urllib.error.HTTPError:
+            except HTTPError:
                 self._request = False
                 self._html = ''
         return self._html
